@@ -92,17 +92,19 @@ class KinBodyDetector(object):
                 kinbody_name = kinbody_file.replace('.kinbody.xml', '')
                 kinbody_name = kinbody_name + str(marker.id)
                 
-                # load the object if it does not exist
-                if self.env.GetKinBody(kinbody_name) is None:
+                body = self.env.GetKinBody(kinbody_name)
+                if body is None:
+                    # Object does not exist, load the kinbody file
                     new_body = prpy.rave.add_object(
                             self.env,
                             kinbody_name,
                             os.path.join(self.kinbody_directory, kinbody_file))
                     added_kinbodies.append(new_body)
                     self.generated_bodies.append(new_body)
-                
-                body = self.env.GetKinBody(kinbody_name)
+                else:
+                    # Kinbody is already in the environment
+                    updated_kinbodies.append(body)
+
                 body.SetTransform(final_kb_pose)
-                updated_kinbodies.append(body)
-        
+
         return added_kinbodies, updated_kinbodies
