@@ -71,7 +71,6 @@ class KinBodyDetector(object):
                         rospy.Time(),
                         rospy.Duration(timeout))
                 frame_trans, frame_rot = self.listener.lookupTransform(
-#                        self.detection_frame,
                         self.destination_frame,
                         self.detection_frame,
                         rospy.Time(0))
